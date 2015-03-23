@@ -32,7 +32,7 @@ namespace ConsoleApplication1
             finish = DateTime.Now;
 
             TimeSpan diff = finish - begin;
-            Console.WriteLine("Done extract {0} companies in {1}", end - start + 1, diff);
+            Console.WriteLine("Finish extract {0} companies in {1}", end - start + 1, diff);
             Console.Read();
         }
     }
