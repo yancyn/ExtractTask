@@ -8,9 +8,46 @@ using System.Text.RegularExpressions;
 
 namespace ExtractBusinessCard
 {
-    public class ArrayCard: CardFactory
+    public class ArrayCard : CardFactory
     {
         private List<List<string>> lines;
+        private string[] headers = new string[] { "Name", "Business Address", "Factory Address", "Telephone", "Facsimile", "Email", "Website", "Registration No.", "Incorporation Date", "Type Of Business", "Business Enquiry Contact", "Designation", "Certification", "Product(s)" };
+        private List<string> GetCells(string line)
+        {
+            List<string> record = new List<string>();
+
+            string value = string.Empty;
+            MatchCollection matches = Regex.Matches(line, "(?<=^|>)[^><]+?(?=<|$)");
+            // skip first match where its a numbering.
+            for (int i = 1; i < matches.Count; i++) //foreach (Group group in match.Groups)
+            {
+                if (headers.Contains(matches[i].Groups[0].Value))
+                {
+                    if (value.Length > 0) record.Add(value);
+                    value = string.Empty; //reset
+                }
+                else if (matches[i].Groups[0].Value != ":")
+                {
+                    //if (value.Length > 0) value += " ";
+                    value += " " + matches[i].Groups[0].Value;
+                }
+            }
+            if (value.Length > 0) record.Add(value.Trim());
+
+            return record;
+        }
+        /// <summary>
+        /// Replace some exception character to match regex result.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private string Replace(string source)
+        {
+            string result = source;
+            result = result.Replace("\n", "");
+            result = result.Replace("<br>", " ");
+            return result;
+        }
         public override void Extract(string uri)
         {
             lines = new List<List<string>>();
@@ -28,8 +65,7 @@ namespace ExtractBusinessCard
                     {
                         foreach (Group group in match.Groups)
                         {
-                            // TODO: Continue extract table row
-                            System.Diagnostics.Debug.WriteLine(group.ToString());
+                            //System.Diagnostics.Debug.WriteLine(group.ToString());
                             List<string> line = GetCells(group.ToString());
                             this.lines.Add(line);
                         }
@@ -37,30 +73,9 @@ namespace ExtractBusinessCard
                 }
             }
         }
-        private List<string> GetCells(string line)
-        {
-            List<string> record = new List<string>();
-            MatchCollection matches = Regex.Matches(line, "(?<=^|>)[^><]+?(?=<|$)");
-            foreach (Match match in matches)
-            {
-                foreach (Group group in match.Groups)
-                    record.Add(group.Value);
-            }
-            return record;
-        }
         /// <summary>
-        /// Replace some exception character to match regex result.
+        /// TODO: Manipulate array string line.
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        private string Replace(string source)
-        {
-            string result = source;
-            result = result.Replace("\n", "");
-            result = result.Replace("<br>", " ");
-            return result;
-        }
-
         public override void Process()
         {
             StreamWriter writer = new StreamWriter(OUTPUT);

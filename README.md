@@ -16,7 +16,7 @@ where start and end is an integer ie. 3100. The result is save at the same locat
 ## Change Log
 
 ### v0.15.3.25
-Fix joined string when there are new line or more than 1 value.
+Fix joined string when there is new line or more than 1 value.
 
 ### v0.15.3.23
 Initial release.

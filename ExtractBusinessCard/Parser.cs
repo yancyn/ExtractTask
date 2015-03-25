@@ -7,18 +7,14 @@ namespace ExtractBusinessCard
 {
     public class Parser
     {
-        private int start;
-        private int end;
         private const int bulk = 15;
         private const string URI = "http://edirectory.matrade.gov.my/application/edirectory.nsf/PrintCompany?OpenAgent&Option=detail&param=";
         private CardFactory card;
-        public Parser(CardFactory card, int start, int end)
+        public Parser(CardFactory card)
         {
             this.card = card;
-            this.start = start;
-            this.end = end;
         }
-        public void Parse()
+        public void Parse(int start, int end)
         {
             string address = URI;
             for (int i = start; i <= end; i++)

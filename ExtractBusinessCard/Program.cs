@@ -11,7 +11,7 @@ namespace ExtractBusinessCard
         {
             int start = 3101;
             int end = 3115;
-            if (args.Length > 0)
+            if (args.Length > 1)
             {
                 start = Convert.ToInt32(args[0]);
                 end = Convert.ToInt32(args[1]);
@@ -19,9 +19,9 @@ namespace ExtractBusinessCard
 
             DateTime begin = DateTime.Now;
 
-            ObjectCard card = new ObjectCard();
-            Parser parser = new Parser(card, start, end);
-            parser.Parse();
+            ObjectCard card = new ObjectCard(); //ArrayCard card = new ArrayCard();
+            Parser parser = new Parser(card);
+            parser.Parse(start, end);
 
             DateTime finish = DateTime.Now;
             TimeSpan diff = finish - begin;
