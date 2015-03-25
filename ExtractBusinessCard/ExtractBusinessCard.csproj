@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayCard.cs" />
     <Compile Include="BusinessCard.cs" />
-    <Compile Include="BusinessCardParser.cs" />
+    <Compile Include="CardFactory.cs" />
+    <Compile Include="ObjectCard.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

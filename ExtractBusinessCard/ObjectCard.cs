@@ -1,59 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Muje.Magnum.Parser
+namespace ExtractBusinessCard
 {
-    public class BusinessCardParser
+    public class ObjectCard: CardFactory
     {
-        private int start;
-        private int end;
-        private string uri;
         private List<BusinessCard> cards;
-        public List<BusinessCard> Cards;
-
-        public BusinessCardParser(string uri, int start, int end)
+        public override void Extract(string uri)
         {
-            this.uri = uri;
-            this.start = start;
-            this.end = end;
             this.cards = new List<BusinessCard>();
-        }
-        public void Parse()
-        {
-            Extract();
-            Process();
-        }
+            System.Diagnostics.Debug.WriteLine("Uri:" + uri);
+            Console.WriteLine("Parsing " + uri);
 
-        /// <summary>
-        /// Parse every n of business card to avoid longer url characters
-        /// </summary>
-        private void Extract()
-        {
-            int bulk = 15;
-            string address = this.uri;
-            for (int i = start; i <= end; i++)
-            {
-                if ((i - start) % bulk == 0)
-                {
-                    if (i > start)
-                        ExtractUrl(address);
-                    address = this.uri;//reset
-                }
-                if ((i - start) % bulk > 0) address += "+";
-                address += i.ToString();
-            }
-            ExtractUrl(address);
-        }
-        private void ExtractUrl(string address)
-        {
-            System.Diagnostics.Debug.WriteLine("Uri:" + address);
-            Console.WriteLine("Parsing " + address);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
                 using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
@@ -100,35 +64,6 @@ namespace Muje.Magnum.Parser
                 }
             }
         }
-
-        /// <summary>
-        /// Better extraction with Regex.
-        /// </summary>
-        /// <param name="address"></param>
-        private void ExtractUrl2(string address)
-        {
-            System.Diagnostics.Debug.WriteLine("Uri:" + address);
-            Console.WriteLine("Parsing " + address);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-                {
-                    string html = reader.ReadToEnd();
-                    html = html.Replace("\n", "");
-                    MatchCollection matches = Regex.Matches(html, "<table border=0 width=100% cellspacing=3>.*?</table>", RegexOptions.Multiline);
-                    foreach (Match match in matches)
-                    {
-                        foreach (Group group in match.Groups)
-                        {
-                            // TODO: Continue extract table row
-                            System.Diagnostics.Debug.WriteLine(group.ToString());
-                        }
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Extract the value from html tag.
         /// </summary>
@@ -139,14 +74,12 @@ namespace Muje.Magnum.Parser
             string output = string.Empty;
             MatchCollection matches = Regex.Matches(line, "(?<=^|>)[^><]+?(?=<|$)");
             for (int i = 2; i < matches.Count; i++)
-                output += matches[i].Groups[0].Value;
-            return output;
+                output += matches[i].Groups[0].Value + " ";
+            return output.Trim();
         }
-
-        private void Process()
+        public override void Process()
         {
-            StreamWriter writer = new StreamWriter("output.csv");
-
+            StreamWriter writer = new StreamWriter(OUTPUT);
             string format = string.Empty;
             for (int i = 0; i < 16; i++)
             {
@@ -157,7 +90,6 @@ namespace Muje.Magnum.Parser
             foreach (BusinessCard card in this.cards)
                 writer.WriteLine(card.ToString());
             writer.Close();
-
         }
     }
 }

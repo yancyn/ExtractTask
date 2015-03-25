@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Muje.Magnum.Parser
+namespace ExtractBusinessCard
 {
     public class BusinessCard
     {
