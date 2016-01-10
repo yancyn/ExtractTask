@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Amazon\AmazonItem.cs" />
+    <Compile Include="Amazon\AmazonParser.cs" />
     <Compile Include="Trader\ArrayCard.cs" />
     <Compile Include="Trader\BusinessCard.cs" />
     <Compile Include="Trader\CardFactory.cs" />
