@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Muje.Parser;
+using Muje.Parser.MalaysiaExporter;
 using NUnit;
 using NUnit.Framework;
 
@@ -28,7 +28,7 @@ namespace Muje.Parser.Test
 
             DateTime begin = DateTime.Now;
             TradeCard card = new TradeCard();
-            Parser parser = new Parser(card);
+            MalaysiaExporter.Parser parser = new MalaysiaExporter.Parser(card);
             parser.Parse(start, end);
 
             DateTime finish = DateTime.Now;

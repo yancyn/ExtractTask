@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Muje.Parser
+namespace Muje.Parser.MalaysiaExporter
 {
     public class ArrayCard : CardFactory
     {

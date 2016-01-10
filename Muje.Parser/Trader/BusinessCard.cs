@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Muje.Parser
+namespace Muje.Parser.MalaysiaExporter
 {
     public class BusinessCard
     {
