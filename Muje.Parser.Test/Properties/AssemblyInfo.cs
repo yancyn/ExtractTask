@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Meju.Parser.Test")]
+[assembly: AssemblyTitle("Muje.Parser.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Plexus Corp")]
-[assembly: AssemblyProduct("Meju.Parser.Test")]
+[assembly: AssemblyProduct("Muje.Parser.Test")]
 [assembly: AssemblyCopyright("Copyright © Plexus Corp 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6ecffceb-8355-4a2d-aa9b-f691e2245188")]
+[assembly: Guid("a9c719a0-69a4-48d1-9a61-e967057eec3c")]
 
 // Version information for an assembly consists of the following four values:
 //
