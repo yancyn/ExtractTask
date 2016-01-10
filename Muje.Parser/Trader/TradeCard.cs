@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ExtractBusinessCard
+namespace Muje.Parser
 {
     public class TradeCard: CardFactory
     {
