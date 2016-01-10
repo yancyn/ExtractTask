@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Amazon\AmazonItem.cs" />
     <Compile Include="Amazon\AmazonParser.cs" />
+    <Compile Include="RegexHelper.cs" />
     <Compile Include="Trader\ArrayCard.cs" />
     <Compile Include="Trader\BusinessCard.cs" />
     <Compile Include="Trader\CardFactory.cs" />

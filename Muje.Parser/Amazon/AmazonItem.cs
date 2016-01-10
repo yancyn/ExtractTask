@@ -15,7 +15,14 @@ namespace Muje.Parser.Amazon
         public string Url { get { return this.url; } }
 
         private string series;
-        public string Series { get { return this.series; } }
+        public string Series
+        {
+            get
+            {
+                this.series = RegexHelper.GrabPattern(this.url, "/dp/", "/ref=");
+                return this.series;
+            }
+        }
 
         public AmazonItem(string title, string url)
         {
