@@ -28,7 +28,7 @@ namespace Muje.Parser.Test
 
             DateTime begin = DateTime.Now;
             TradeCard card = new TradeCard();
-            MalaysiaExporter.Parser parser = new MalaysiaExporter.Parser(card);
+            TraderParser parser = new TraderParser(card);
             parser.Parse(start, end);
 
             DateTime finish = DateTime.Now;

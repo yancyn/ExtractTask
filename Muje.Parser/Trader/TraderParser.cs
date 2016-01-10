@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Muje.Parser.MalaysiaExporter
 {
-    public class Parser
+    public class TraderParser
     {
         private const int bulk = 15;
         private const string URI = "http://edirectory.matrade.gov.my/application/edirectory.nsf/PrintCompany?OpenAgent&Option=detail&param=";
         private CardFactory card;
-        public Parser(CardFactory card)
+        public TraderParser(CardFactory card)
         {
             this.card = card;
         }
