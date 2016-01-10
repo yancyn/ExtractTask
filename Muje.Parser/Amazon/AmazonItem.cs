@@ -29,5 +29,9 @@ namespace Muje.Parser.Amazon
             this.title = title;
             this.url = url;
         }
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", this.title, this.url);
+        }
     }
 }
