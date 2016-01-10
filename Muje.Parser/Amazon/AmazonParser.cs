@@ -121,14 +121,14 @@ namespace Muje.Parser.Amazon
                     }
                 }// close http request
             }// end loop
-            System.Diagnostics.Debug.WriteLine("Result found: " + items.Count);
         }
         /// <summary>
         /// Generate collection of urls can be use in Amazonaire.
         /// </summary>
-        public void ListAffiliate()
+        public void ListAffiliate(string url)
         {
-
+            foreach (AmazonItem item in items)
+                System.Diagnostics.Debug.WriteLine(url + item.Series);
         }
     }
 }

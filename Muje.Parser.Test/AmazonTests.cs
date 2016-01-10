@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,7 +67,7 @@ namespace Muje.Parser.Test
                 "Real Estate",
                 "Stocks"
             };
-            int i=0;
+            int i = 0;
             foreach (KeyValuePair<string, string> pair in parser.GetCategories())
             {
                 System.Diagnostics.Debug.WriteLine("{0}:{1}", pair.Key, pair.Value);
@@ -75,11 +76,24 @@ namespace Muje.Parser.Test
             }
         }
         [Test]
-        public void Parse()
+        public void ParseTest()
         {
             AmazonParser parser = new AmazonParser(@"http://www.amazon.com/Best-Sellers-Books-Investing/zgbs/books/2665");
             parser.Parse();
-            parser.ListAffiliate();
+            System.Diagnostics.Debug.WriteLine("Result found: " + parser.Result.Count());
+        }
+        [Test]
+        public void ParseToAffiliate()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string baseUrl = config.AppSettings.Settings["AmazonBaseUrl"].Value;
+            string url = config.AppSettings.Settings["Amazonaire"].Value;
+
+            AmazonParser parser = new AmazonParser(baseUrl);
+            parser.Parse();
+            parser.ListAffiliate(url);
+
+            System.Diagnostics.Debug.WriteLine("Result found: " + parser.Result.Count());
         }
     }
 }
