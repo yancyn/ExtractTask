@@ -80,14 +80,30 @@ namespace Muje.Parser.Amazon
 
             return this.categories;
         }
+
+        public void ParseAll()
+        {
+            GetCategories();
+            Parse();
+
+            foreach (KeyValuePair<string, string> pair in this.categories)
+            {
+                System.Diagnostics.Debug.WriteLine("Extracting category: " + pair.Key);
+                Parse(pair.Value);
+            }
+        }
+        public void Parse()
+        {
+            Parse(baseUrl);
+        }
         /// <summary>
         /// Extract to collection of AmazonItem based on base url.
         /// </summary>
-        public void Parse()
+        public void Parse(string url)
         {
             for (int i = 0; i < 5; i++)
             {
-                string link = baseUrl + "#" + (i + 1).ToString();
+                string link = url + "#" + (i + 1).ToString();
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
                 System.Diagnostics.Debug.WriteLine("Start parsing " + link);
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
@@ -109,8 +125,8 @@ namespace Muje.Parser.Amazon
 
                                     string title = RegexHelper.GrabPattern(useful, "title=\"", "\" onload");
                                     if (string.IsNullOrEmpty(title)) title = RegexHelper.GrabPattern(useful, "title=\"", "\"/>");
-                                    string url = RegexHelper.GrabPattern(useful, "href=\"", "\"><img");
-                                    AmazonItem item = new AmazonItem(title, url);
+                                    string u = RegexHelper.GrabPattern(useful, "href=\"", "\"><img");
+                                    AmazonItem item = new AmazonItem(title, u);
                                     this.items.Add(item);
                                     System.Diagnostics.Debug.WriteLine(item.ToString());
 

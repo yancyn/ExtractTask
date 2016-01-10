@@ -95,5 +95,18 @@ namespace Muje.Parser.Test
 
             System.Diagnostics.Debug.WriteLine("Result found: " + parser.Result.Count());
         }
+        [Test]
+        public void ParseAllToAffiliate()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string baseUrl = config.AppSettings.Settings["AmazonBaseUrl"].Value;
+            string url = config.AppSettings.Settings["Amazonaire"].Value;
+
+            AmazonParser parser = new AmazonParser(baseUrl);
+            parser.ParseAll();
+            parser.ListAffiliate(url);
+
+            System.Diagnostics.Debug.WriteLine("Result found: " + parser.Result.Count());
+        }
     }
 }
