@@ -6,9 +6,9 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ExtractBusinessCard
+namespace Muje.Parser
 {
-    public class ObjectCard: CardFactory
+    public class TradeCard : CardFactory
     {
         private List<BusinessCard> cards;
         public override void Extract(string uri)
@@ -88,7 +88,10 @@ namespace ExtractBusinessCard
             }
             writer.WriteLine(string.Format(format, "Name", "BusinessAddress", "FactoryAddress", "Telephone", "Facsimile", "Email", "Website", "RegistrationNo", "IncorporationDate", "TypeOfBusiness", "BusinessEnquiryContact", "Designation", "BusinessEnquiryContact", "Designation", "Certification", "Products"));
             foreach (BusinessCard card in this.cards)
+            {
                 writer.WriteLine(card.ToString());
+                Console.WriteLine(card.ToString());
+            }
             writer.Close();
         }
     }
