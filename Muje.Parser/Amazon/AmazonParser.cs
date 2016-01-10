@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Muje.Parser.Amazon
@@ -21,20 +22,66 @@ namespace Muje.Parser.Amazon
         /// </summary>
         public AmazonItem[] Result { get { return this.items.ToArray(); } }
 
-        private Dictionary<string, string> categories;
-        /// <summary>
-        /// Return categories.
-        /// </summary>
-        public Dictionary<string, string> Catagories { get { return this.categories; } }
-
         public AmazonParser(string url)
         {
             this.baseUrl = url;
             this.items = new List<AmazonItem>();
             this.categories = new Dictionary<string, string>();
         }
+        private Dictionary<string, string> categories;
         /// <summary>
-        /// Extract to collection of AmazonItem.
+        /// Return categories.
+        /// </summary>
+        public Dictionary<string, string> GetCategories()
+        {
+            this.categories = new Dictionary<string, string>();
+
+            string extraction = string.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseUrl);
+            System.Diagnostics.Debug.WriteLine("Start parsing " + baseUrl);
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                {
+                    string line;
+                    bool start = false;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.Contains("<ul id=\"zg_browseRoot\">")) start = true;
+                        if (start)
+                        {
+                            extraction += line;
+                            if (line.Contains("</ul>")) break;
+                        }
+                    }
+                }
+            }
+
+            // parse into li collection
+            MatchCollection matches = Regex.Matches(extraction, "<li>(.*?)</li>");
+            for (int i = 1; i < matches.Count; i++)
+            {
+                string li = matches[i].Groups[0].Value;
+                string category = string.Empty;
+                string url = string.Empty;
+                //System.Diagnostics.Debug.WriteLine(li);
+
+                li = li.TrimStart(new char[] { '<', 'l', 'i', '>', '<', 'a', });
+                li = li.TrimEnd(new char[] { '<', '/', 'a', '>', '<', '/', 'l', 'i', '>' });
+                li = li.Trim();
+                //System.Diagnostics.Debug.WriteLine(li);
+                li = li.Replace("'>", ";"); // HACK: Replace '> with ; then split again with ;
+                string[] pieces = li.Split(new char[] { ';' });
+                if (pieces.Length > 0) url = pieces[0].Replace("href='", string.Empty);
+                if (pieces.Length > 1) category = pieces[1];
+                //System.Diagnostics.Debug.WriteLine(string.Format("{0}:{1}", category, url));
+                this.categories.Add(category, url);
+            }
+
+            return this.categories;
+        }
+        /// <summary>
+        /// Extract to collection of AmazonItem based on base url.
         /// </summary>
         public void Parse()
         {
