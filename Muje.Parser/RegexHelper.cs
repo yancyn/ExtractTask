@@ -48,7 +48,7 @@ namespace Muje.Parser
                 string chock = match.Value;
                 chock = chock.TrimStart(prefixes);
                 chock = chock.TrimEnd(suffixes);
-                result = chock;
+                result = chock.Trim();
             }
             return result;
         }
