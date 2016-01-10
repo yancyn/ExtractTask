@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmazonTests.cs" />
     <Compile Include="ConfigTests.cs" />
     <Compile Include="ExporterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

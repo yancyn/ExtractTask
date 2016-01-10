@@ -45,7 +45,7 @@
     <Compile Include="Trader\BusinessCard.cs" />
     <Compile Include="Trader\CardFactory.cs" />
     <Compile Include="Trader\TradeCard.cs" />
-    <Compile Include="Trader\Parser.cs" />
+    <Compile Include="Trader\TraderParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
