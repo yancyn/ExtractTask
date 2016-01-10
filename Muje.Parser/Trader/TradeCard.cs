@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Muje.Parser
 {
-    public class TradeCard: CardFactory
+    public class TradeCard : CardFactory
     {
         private List<BusinessCard> cards;
         public override void Extract(string uri)
@@ -88,7 +88,10 @@ namespace Muje.Parser
             }
             writer.WriteLine(string.Format(format, "Name", "BusinessAddress", "FactoryAddress", "Telephone", "Facsimile", "Email", "Website", "RegistrationNo", "IncorporationDate", "TypeOfBusiness", "BusinessEnquiryContact", "Designation", "BusinessEnquiryContact", "Designation", "Certification", "Products"));
             foreach (BusinessCard card in this.cards)
+            {
                 writer.WriteLine(card.ToString());
+                Console.WriteLine(card.ToString());
+            }
             writer.Close();
         }
     }

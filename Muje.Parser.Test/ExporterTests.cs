@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,12 @@ namespace Muje.Parser.Test
         {
             int start = 3101;
             int end = 3115;
-            //if (args.Length > 1)
-            //{
-            //    start = Convert.ToInt32(args[0]);
-            //    end = Convert.ToInt32(args[1]);
-            //}
+
+            //AppDomain.CurrentDomain.ExecuteAssembly
+            //Configuration config = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath);
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            start = Convert.ToInt32(config.AppSettings.Settings["TraderStart"].Value);
+            end = Convert.ToInt32(config.AppSettings.Settings["TraderEnd"].Value);
 
             DateTime begin = DateTime.Now;
             TradeCard card = new TradeCard();
