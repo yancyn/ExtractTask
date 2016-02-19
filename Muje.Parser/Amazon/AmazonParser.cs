@@ -104,8 +104,8 @@ namespace Muje.Parser.Amazon
             for (int i = 0; i < 5; i++)
             {
                 string link = url + "#" + (i + 1).ToString();
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
                 System.Diagnostics.Debug.WriteLine("Start parsing " + link);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
@@ -121,15 +121,14 @@ namespace Muje.Parser.Amazon
                                 useful += line;
                                 if (line.Contains("<img src="))
                                 {
-                                    start = false;
-
                                     string title = RegexHelper.GrabPattern(useful, "title=\"", "\" onload");
                                     if (string.IsNullOrEmpty(title)) title = RegexHelper.GrabPattern(useful, "title=\"", "\"/>");
                                     string u = RegexHelper.GrabPattern(useful, "href=\"", "\"><img");
                                     AmazonItem item = new AmazonItem(title, u);
                                     this.items.Add(item);
-                                    System.Diagnostics.Debug.WriteLine(item.ToString());
+                                    //System.Diagnostics.Debug.WriteLine(item.ToString());
 
+                                    start = false;
                                     useful = string.Empty;
                                 }
                             }
