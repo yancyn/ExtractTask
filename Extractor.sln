@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A0ECB6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muje.Parser.Test", "Muje.Parser.Test\Muje.Parser.Test.csproj", "{E10BCC3C-06BB-4427-9F08-75526D9E9FE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonConsole", "AmazonConsole\AmazonConsole.csproj", "{A4A55CE7-AAD5-4AC1-89D9-8B7450F6A5FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{E10BCC3C-06BB-4427-9F08-75526D9E9FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E10BCC3C-06BB-4427-9F08-75526D9E9FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E10BCC3C-06BB-4427-9F08-75526D9E9FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4A55CE7-AAD5-4AC1-89D9-8B7450F6A5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A55CE7-AAD5-4AC1-89D9-8B7450F6A5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A55CE7-AAD5-4AC1-89D9-8B7450F6A5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A55CE7-AAD5-4AC1-89D9-8B7450F6A5FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
