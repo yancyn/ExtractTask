@@ -103,7 +103,7 @@ namespace Muje.Parser.Amazon
         {
             for (int i = 0; i < 5; i++)
             {
-                string link = url + "#" + (i + 1).ToString();
+                string link = string.Format(url + "/ref=zg_bs_2665_pg_{0}?_encoding=UTF8&pg={0}", i + 1);
                 System.Diagnostics.Debug.WriteLine("Start parsing " + link);
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
@@ -126,7 +126,7 @@ namespace Muje.Parser.Amazon
                                     string u = RegexHelper.GrabPattern(useful, "href=\"", "\"><img");
                                     AmazonItem item = new AmazonItem(title, u);
                                     this.items.Add(item);
-                                    //System.Diagnostics.Debug.WriteLine(item.ToString());
+                                    System.Diagnostics.Debug.WriteLine(item.ToString());
 
                                     start = false;
                                     useful = string.Empty;
