@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using Muje.Parser;
+using Muje.Parser.Amazon;
 
 namespace AmazonConsole
 {
     // source https://msdn.microsoft.com/en-us/library/hh300224.aspx
     class Program
     {
+        private static List<AmazonItem> items;
         private static List<string> SetUpURLList()
         {
             var urls = new List<string>
             { 
-                "http://msdn.microsoft.com/library/windows/apps/br211380.aspx",
-                "http://msdn.microsoft.com",
-                "http://msdn.microsoft.com/en-us/library/hh290136.aspx",
-                "http://msdn.microsoft.com/en-us/library/ee256749.aspx",
-                "http://msdn.microsoft.com/en-us/library/hh290138.aspx",
-                "http://msdn.microsoft.com/en-us/library/hh290140.aspx",
-                "http://msdn.microsoft.com/en-us/library/dd470362.aspx",
-                "http://msdn.microsoft.com/en-us/library/aa578028.aspx",
-                "http://msdn.microsoft.com/en-us/library/ms404677.aspx",
-                "http://msdn.microsoft.com/en-us/library/ff730837.aspx"
+                "http://www.amazon.com/Best-Sellers-Books-Investing/zgbs/books/2665/ref=zg_bs_2665_pg_1?_encoding=UTF8&pg=1",
+                "http://www.amazon.com/Best-Sellers-Books-Investing/zgbs/books/2665/ref=zg_bs_2665_pg_2?_encoding=UTF8&pg=2",
+                "http://www.amazon.com/Best-Sellers-Books-Investing/zgbs/books/2665/ref=zg_bs_2665_pg_3?_encoding=UTF8&pg=3",
+                "http://www.amazon.com/Best-Sellers-Books-Investing/zgbs/books/2665/ref=zg_bs_2665_pg_4?_encoding=UTF8&pg=4",
+                "http://www.amazon.com/Best-Sellers-Books-Investing/zgbs/books/2665/ref=zg_bs_2665_pg_5?_encoding=UTF8&pg=5",
             };
             return urls;
         }
@@ -47,6 +47,32 @@ namespace AmazonConsole
                 }
             }
 
+            // parse and add AmazonItem into collection
+            string html = UTF8Encoding.UTF8.GetString(content.ToArray());
+            string[] lines = html.Split(new char[] { '\n'});
+            bool start = false;
+            string useful = string.Empty;
+            foreach(string line in lines)
+            {
+                if (line.Contains("<div class=\"zg_itemImageImmersion\">")) start = true;
+                if (start)
+                {
+                    useful += line;
+                    if (line.Contains("<img src="))
+                    {
+                        string title = RegexHelper.GrabPattern(useful, "title=\"", "\" onload");
+                        if (string.IsNullOrEmpty(title)) title = RegexHelper.GrabPattern(useful, "title=\"", "\"/>");
+                        string u = RegexHelper.GrabPattern(useful, "href=\"", "\"><img");
+                        AmazonItem item = new AmazonItem(title, u);
+                        items.Add(item);
+                        System.Diagnostics.Debug.WriteLine(item.ToString());
+
+                        start = false;
+                        useful = string.Empty;
+                    }
+                }
+            }
+
             // Return the result as a byte array.
             return content.ToArray();
         }
@@ -61,9 +87,10 @@ namespace AmazonConsole
             Console.WriteLine(string.Format("\n{0,-58} {1,8}", displayURL, bytes));
         }
 
-
         static void Main(string[] args)
         {
+            items = new List<AmazonItem>();
+
             // Make a list of web addresses.
             List<string> urlList = SetUpURLList();
 
@@ -72,8 +99,10 @@ namespace AmazonConsole
             {
                 // GetURLContents returns the contents of url as a byte array.
                 byte[] urlContents = GetURLContents(url);
+                //string html = UTF8Encoding.UTF8.GetString(urlContents);
 
                 DisplayResults(url, urlContents);
+                //Console.WriteLine(html);
 
                 // Update the total.
                 total += urlContents.Length;
